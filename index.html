@@ -415,6 +415,171 @@
       }
     }
 
+
+    /* Responsive laptop + phone layout improvements */
+    .mobile-menu-btn {
+      display: none;
+      padding: 9px 12px;
+      border-radius: 12px;
+      background: var(--pink-soft);
+      color: var(--brown);
+      font-size: 1.35rem;
+      font-weight: 800;
+    }
+
+    @media (max-width: 1100px) {
+      .navbar { padding-left: 5%; padding-right: 5%; }
+      section { padding-left: 5%; padding-right: 5%; }
+      .hero { gap: 35px; }
+      .hero h1 { font-size: clamp(3rem, 7vw, 5.5rem); }
+      .cat-circle { width: min(350px, 40vw); height: min(350px, 40vw); }
+      .big-cat { font-size: clamp(8rem, 13vw, 11rem); }
+    }
+
+    @media (max-width: 850px) {
+      .navbar { padding: 12px 5%; }
+      .logo { font-size: 1.15rem; }
+      .mobile-menu-btn { display: block; }
+
+      .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        display: none;
+        flex-direction: column;
+        gap: 0;
+        padding: 8px 5% 16px;
+        background: rgba(255,248,237,.98);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(216,95,136,.15);
+      }
+
+      .nav-links.open { display: flex; }
+      .nav-links li { width: 100%; }
+      .nav-links a {
+        display: block;
+        padding: 12px 4px;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 125px;
+        padding-bottom: 75px;
+      }
+
+      .hero-art { width: 100%; }
+      .cat-circle {
+        width: min(340px, 78vw);
+        height: min(340px, 78vw);
+      }
+
+      .photo-grid,
+      .cat-grid { grid-template-columns: 1fr; }
+
+      .photo-card,
+      .card { width: 100%; }
+
+      .envelope {
+        width: min(540px, 94vw);
+      }
+
+      .flap {
+        border-right-width: 47vw;
+        border-left-width: 47vw;
+      }
+    }
+
+    @media (max-width: 600px) {
+      section { padding: 65px 5%; }
+
+      .hero h1 {
+        font-size: clamp(2.7rem, 14vw, 4rem);
+      }
+
+      .hero p {
+        font-size: 1rem;
+        line-height: 1.7;
+      }
+
+      .tag {
+        font-size: .85rem;
+        text-align: center;
+      }
+
+      .primary-btn,
+      .music-btn {
+        max-width: 100%;
+        font-size: .9rem;
+      }
+
+      .heading { margin-bottom: 32px; }
+      .heading h2 { font-size: clamp(2rem, 10vw, 3rem); }
+
+      .cat-circle {
+        width: 280px;
+        height: 280px;
+      }
+
+      .big-cat { font-size: 8rem; }
+      .floating.one { top: 25px; right: 20px; }
+      .floating.two { bottom: 25px; left: 20px; }
+
+      .envelope {
+        height: 330px;
+        border-radius: 14px;
+      }
+
+      .letter {
+        top: 18px;
+        height: 280px;
+        padding: 16px;
+      }
+
+      .letter h3 { font-size: 1.4rem; }
+      .letter p { font-size: .82rem; line-height: 1.55; }
+
+      .flap {
+        border-top-width: 165px;
+        border-right-width: 47vw;
+        border-left-width: 47vw;
+      }
+
+      .seal {
+        top: 122px;
+        width: 58px;
+        height: 58px;
+        font-size: 1.5rem;
+      }
+
+      .card { padding: 24px 18px; }
+      .interactive-cat { font-size: 5.5rem; }
+
+      .menu-row {
+        align-items: flex-start;
+        font-size: .9rem;
+      }
+
+      .final-card {
+        padding: 30px 18px;
+      }
+
+      footer {
+        padding-left: 5%;
+        padding-right: 5%;
+        font-size: .85rem;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .logo { font-size: 1rem; }
+      .music-btn { padding: 8px 10px; }
+      .cat-circle { width: 250px; height: 250px; }
+      .big-cat { font-size: 7rem; }
+      .envelope { height: 315px; }
+      .letter { height: 265px; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .falling-confetti {
         animation-duration: 14s !important;
@@ -439,6 +604,7 @@
 
   <nav class="navbar">
     <div class="logo">Nainiha's Cat Café 🐱</div>
+    <button class="mobile-menu-btn" id="mobileMenuButton" aria-label="Open navigation" aria-expanded="false">☰</button>
     <ul class="nav-links">
       <li><a href="#home">Home</a></li>
       <li><a href="#letter-section">Letter</a></li>
@@ -923,5 +1089,27 @@
       }
     }
   </script>
+
+  <script>
+    const mobileMenuButton = document.getElementById("mobileMenuButton");
+    const navLinks = document.querySelector(".nav-links");
+
+    if (mobileMenuButton && navLinks) {
+      mobileMenuButton.addEventListener("click", () => {
+        const open = navLinks.classList.toggle("open");
+        mobileMenuButton.setAttribute("aria-expanded", open ? "true" : "false");
+        mobileMenuButton.textContent = open ? "✕" : "☰";
+      });
+
+      navLinks.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+          navLinks.classList.remove("open");
+          mobileMenuButton.setAttribute("aria-expanded", "false");
+          mobileMenuButton.textContent = "☰";
+        });
+      });
+    }
+  </script>
+
 </body>
 </html>
